@@ -7,9 +7,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 module alu_control (
-        input  logic [1:0] alu_op,
-        input  logic [5:0] fn,
-        output logic [1:0] alu_control
+        input  logic [1:0] alu_op,     // alu opcode
+        input  logic [5:0] fn,         // function code
+        output logic [1:0] alu_control // alu control opcode
     );
 
     always_comb
