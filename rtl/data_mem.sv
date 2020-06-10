@@ -23,10 +23,10 @@ module data_mem
 
     always_ff @(posedge clk)
         if (write_en)
-            mem[addr] = write_data;
+            mem[addr/4] = write_data;
 
     always_comb
         if (read_en)
-            read_data = mem[addr];
+            read_data = mem[addr/4];
 
 endmodule
