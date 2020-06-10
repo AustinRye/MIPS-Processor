@@ -6,7 +6,7 @@
 // JR Control for controlling JR operations
 ////////////////////////////////////////////////////////////////////////////////
 
-module alu_control (
+module jr_control (
         input  logic [1:0] alu_op,    // alu opcode
         input  logic [5:0] fn,        // function code
         output logic       jr_control // jr control
