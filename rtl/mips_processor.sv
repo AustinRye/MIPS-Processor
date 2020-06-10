@@ -40,7 +40,7 @@ module mips_processor (
     ////////////////////////
 
     instr_mem #(
-        .ADDR_SIZE      (1024),
+        .ADDR_WIDTH     (32),
         .INSTR_WIDTH    (32)
     ) u_instr_mem (
         .addr           (pc),

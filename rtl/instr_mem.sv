@@ -8,14 +8,14 @@
 
 module instr_mem
     #(
-        parameter ADDR_SIZE   = 1,
+        parameter ADDR_WIDTH  = 1,
         parameter INSTR_WIDTH = 1
     ) (
-        input  logic [ADDR_SIZE-1:0]   addr, // address
+        input  logic [ADDR_WIDTH-1:0]  addr, // address
         output logic [INSTR_WIDTH-1:0] instr // instruction data
     );
 
-    logic [INSTR_WIDTH-1:0] mem [ADDR_SIZE-1:0];
+    logic [INSTR_WIDTH-1:0] mem [ADDR_WIDTH-1:0];
 
     assign instr = mem[addr/4];
 
