@@ -1,0 +1,5 @@
+# Icarus Verilog and GTKWave Simulator
+*.log
+*.vvp
+*.vcd
+*.gtkw
