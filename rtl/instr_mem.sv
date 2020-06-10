@@ -17,6 +17,6 @@ module instr_mem
 
     logic [INSTR_WIDTH-1:0] mem [ADDR_SIZE-1:0];
 
-    assign instr = mem[addr];
+    assign instr = mem[addr/4];
 
 endmodule
