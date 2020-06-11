@@ -24,6 +24,13 @@ module mips_processor (
     logic [4:0]  reg_read_addr_1, reg_read_addr_2;
     logic [31:0] reg_read_data_1, reg_read_data_2;
 
+    // ALU
+    logic [31:0] alu_in_a, alu_in_b;
+    logic [2:0]  alu_op;
+    logic [31:0] alu_result;
+    logic        zero_flag;
+
+
     /////////////////////
     // Program Counter //
     /////////////////////
@@ -53,6 +60,7 @@ module mips_processor (
         .instr          (instr)
     );
 
+
     /////////////////////
     //  Register File  //
     /////////////////////
@@ -60,6 +68,7 @@ module mips_processor (
     assign reg_read_addr_1 = instr[25:21];
     assign reg_read_addr_2 = instr[20:16];
     assign reg_write_addr  = instr[15:11];
+    assign reg_write_data  = alu_result;
 
     reg_file #(
         .DATA_WIDTH     (32),
@@ -75,5 +84,23 @@ module mips_processor (
         .read_data_1    (reg_read_data_1),
         .read_data_2    (reg_read_data_2)
     );
+
+    ///////////////////
+    //      ALU      //
+    ///////////////////
+
+    assign alu_in_a = reg_read_data_1;
+    assign alu_in_b = reg_read_data_2;
+
+    alu #(
+        .DATA_WIDTH     (32)
+    ) u_alu (
+        .a              (alu_in_a),
+        .b              (alu_in_b),
+        .op_sel         (alu_op),
+        .result         (alu_result),
+        .zero           (zero_flag)
+    );
+
 
 endmodule
