@@ -13,7 +13,7 @@ module alu
     ) (
         input  logic [DATA_WIDTH-1:0] a,        // operation data
         input  logic [DATA_WIDTH-1:0] b,        // operation data
-        input  logic [1:0]            op_sel,   // select operation
+        input  logic [2:0]            op_sel,   // select operation
         output logic [DATA_WIDTH-1:0] result,   // operation result
         output logic                  zero      // zero flag
     );
@@ -21,11 +21,12 @@ module alu
     always_comb
     begin
         case(op_sel)
-            2'b00: result = a + b; // add
-            2'b01: result = a | b; // or
-            2'b10: result = a - b; // sub
-            2'b11: if (a < b) result = 1;
-                   else       result = 0;
+            3'b000: result = a & b; // and
+            3'b001: result = a | b; // or
+            3'b010: result = a + b; // add
+            3'b110: result = a - b; // sub
+            3'b111: if (a < b) result = 1; // slt
+                    else       result = 0;
             default: result = 0;
         endcase
     end
