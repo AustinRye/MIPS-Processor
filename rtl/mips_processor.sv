@@ -11,6 +11,12 @@ module mips_processor (
         input  logic rst
     );
 
+    // Instruction Format
+    logic [5:0]  op, func;
+    logic [4:0]  rs, rt, rd, shamt;
+    logic [15:0] immediate;
+    logic [25:0] target_address;
+
     // Program Counter
     logic [31:0] pc, pc_next;
 
@@ -29,6 +35,20 @@ module mips_processor (
     logic [2:0]  alu_op;
     logic [31:0] alu_result;
     logic        zero_flag;
+
+
+    ////////////////////////
+    // Instruction Format //
+    ////////////////////////
+
+    assign op             = instr[31:26];
+    assign rs             = instr[25:21];
+    assign rt             = instr[20:16];
+    assign rd             = instr[15:11];
+    assign shamt          = instr[10:6];
+    assign func           = instr[5:0];
+    assign immediate      = instr[15:0];
+    assign target_address = instr[25:0];
 
 
     /////////////////////
@@ -65,9 +85,9 @@ module mips_processor (
     //  Register File  //
     /////////////////////
 
-    assign reg_read_addr_1 = instr[25:21];
-    assign reg_read_addr_2 = instr[20:16];
-    assign reg_write_addr  = instr[15:11];
+    assign reg_read_addr_1 = rs;
+    assign reg_read_addr_2 = rt;
+    assign reg_write_addr  = rd;
     assign reg_write_data  = alu_result;
 
     reg_file #(
