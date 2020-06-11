@@ -21,7 +21,7 @@ compile: $(TB).sv $(LDIR)/*.sv
 	$(VVP) $(TB).vvp > $(TB).log
 
 wave:
-	$(WAVE) waveform.vcd
+	$(WAVE) waveform.vcd config.gtkw
 
 .PHONY: clean
 
