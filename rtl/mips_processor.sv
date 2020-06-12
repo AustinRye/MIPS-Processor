@@ -34,6 +34,9 @@ module mips_processor (
     logic [4:0]  reg_read_addr_1, reg_read_addr_2;
     logic [31:0] reg_read_data_1, reg_read_data_2;
 
+    // ALU Control
+    logic [2:0]  alu_control;
+
     // ALU
     logic [31:0] alu_in_a, alu_in_b;
     logic [31:0] alu_result;
@@ -118,6 +121,18 @@ module mips_processor (
         .read_data_2    (reg_read_data_2)
     );
 
+
+    ///////////////////
+    //  ALU Control  //
+    ///////////////////
+
+    alu_control u_alu_control (
+        .alu_op         (alu_op),
+        .func           (func),
+        .alu_control    (alu_control)
+    );
+
+
     ///////////////////
     //      ALU      //
     ///////////////////
@@ -130,7 +145,7 @@ module mips_processor (
     ) u_alu (
         .a              (alu_in_a),
         .b              (alu_in_b),
-        .op_sel         (),
+        .op_sel         (alu_control),
         .result         (alu_result),
         .zero           ()
     );
