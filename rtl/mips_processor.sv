@@ -32,9 +32,7 @@ module mips_processor (
 
     // ALU
     logic [31:0] alu_in_a, alu_in_b;
-    logic [2:0]  alu_op;
     logic [31:0] alu_result;
-    logic        zero_flag;
 
 
     ////////////////////////
@@ -117,9 +115,9 @@ module mips_processor (
     ) u_alu (
         .a              (alu_in_a),
         .b              (alu_in_b),
-        .op_sel         (alu_op),
+        .op_sel         (),
         .result         (alu_result),
-        .zero           (zero_flag)
+        .zero           ()
     );
 
 
