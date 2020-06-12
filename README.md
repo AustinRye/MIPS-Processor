@@ -7,12 +7,6 @@ A 32-bit single-cycle MIPS processor based on the RISC instruction set architect
 <table>
     <thead align=center>
         <tr>
-            <th>Name</th>
-            <th colspan=6>Fields</th>
-        </tr>
-    </thead>
-    <tbody align=center>
-        <tr>
             <td>Field Size</td>
             <td>6 bits</td>
             <td>5 bits</td>
@@ -21,6 +15,8 @@ A 32-bit single-cycle MIPS processor based on the RISC instruction set architect
             <td>5 bits</td>
             <td>6 bits</td>
         </tr>
+    </thead>
+    <tbody align=center>
         <tr>
             <td>R-format</td>
             <td>op</td>
@@ -44,3 +40,13 @@ A 32-bit single-cycle MIPS processor based on the RISC instruction set architect
         </tr>
     </tbody>
 </table>
+
+## ALU Control
+
+| ALU Op [1:0] | Func [5:0] | ALU Control[2:0] | ALU Operation |
+|:------------:|:----------:|:----------------:|:-------------:|
+| 1x           | 100000     | 010              | add           |
+| 1x           | 100010     | 110              | sub           |
+| 1x           | 100100     | 000              | and           |
+| 1x           | 100101     | 001              | or            |
+| 1x           | 101010     | 111              | slt           |
