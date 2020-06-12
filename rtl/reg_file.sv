@@ -22,16 +22,16 @@ module reg_file
         output logic [DATA_WIDTH-1:0] read_data_2  // read 2nd data
     );
 
-    logic [DATA_WIDTH-1:0] reg_array [2**ADDR_WIDTH-1:0];
+    logic [DATA_WIDTH-1:0] regs [2**ADDR_WIDTH-1:0];
 
     always_ff @(posedge clk or posedge rst)
         if (rst)
             for (int i = 0; i < 2**ADDR_WIDTH; i++)
-                reg_array[i] = 0;
+                regs[i] = 0;
         else if (write_en)
-            reg_array[write_addr] = write_data;
+            regs[write_addr] = write_data;
 
-    assign read_data_1 = reg_array[read_addr_1];
-    assign read_data_2 = reg_array[read_addr_2];
+    assign read_data_1 = regs[read_addr_1];
+    assign read_data_2 = regs[read_addr_2];
 
 endmodule

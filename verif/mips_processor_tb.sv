@@ -29,6 +29,7 @@ module mips_processor_tb;
         # 20;
 
         rst = 0;
+        $readmemb("regs.mbin", mips_processor_dut.u_reg_file.regs);
 
         #10000;
         $finish;
@@ -40,8 +41,12 @@ module mips_processor_tb;
         $dumpvars(0, mips_processor_tb);
 
         // instr_mem mem array
-        for(int i=0; i < 10; i++)
+        for(int i=0; i < 1; i++)
             $dumpvars(1, mips_processor_dut.u_instr_mem.mem[i]);
+
+        // reg_file reg_array array
+        for(int i=0; i < 32; i++)
+            $dumpvars(1, mips_processor_dut.u_reg_file.regs[i]);
     end
 
 endmodule
