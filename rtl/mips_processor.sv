@@ -23,6 +23,10 @@ module mips_processor (
     // Instruction Memory
     logic [31:0] instr;
 
+    // Control
+    logic [1:0]  alu_op;
+    logic        reg_write;
+
     // Register File
     logic        reg_write_en;
     logic [4:0]  reg_write_addr;
@@ -80,6 +84,17 @@ module mips_processor (
 
 
     /////////////////////
+    //     Control     //
+    /////////////////////
+
+    control u_control (
+        .opcode         (op),
+        .reg_write      (reg_write),
+        .alu_op         (alu_op)
+    );
+
+
+    /////////////////////
     //  Register File  //
     /////////////////////
 
@@ -94,7 +109,7 @@ module mips_processor (
     ) u_reg_file (
         .clk            (clk),
         .rst            (rst),
-        .write_en       (reg_write_en),
+        .write_en       (reg_write),
         .write_addr     (reg_write_addr),
         .write_data     (reg_write_data),
         .read_addr_1    (reg_read_addr_1),
