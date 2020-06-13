@@ -10,6 +10,50 @@ module mips_processor_tb;
 
     logic clk, rst;
 
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  Tasks
+    ////////////////////////////////////////////////////////////////////////////
+
+    task reset;
+        // reset
+        rst = 1;
+        #100;
+        rst = 0;
+    endtask
+
+    task rtype_test;
+        parameter instr_num = 5;
+
+        // load instr contents
+        $readmemb("bin/rtype.ibin", mips_processor_dut.u_instr_mem.mem);
+
+        // load register contents
+        $readmemb("bin/rtype.rbin", mips_processor_dut.u_reg_file.regs);
+
+        // Execute instructions
+        repeat(instr_num) @(posedge clk);
+    endtask
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  Test Runs
+    ////////////////////////////////////////////////////////////////////////////
+
+    initial begin
+        clk = 0;
+        reset();
+
+        rtype_test();
+
+        #10;
+        $finish;
+    end
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  DUT Instantiations
+    ////////////////////////////////////////////////////////////////////////////
+
     always
         #5 clk = ~clk;
 
@@ -18,22 +62,10 @@ module mips_processor_tb;
         .rst(rst)
     );
 
-    initial begin
-        // load memory contents
-        $readmemb("instrs.mbin", mips_processor_dut.u_instr_mem.mem);
 
-        // initial state
-        clk = 0;
-        rst = 1;
-        
-        # 20;
-
-        rst = 0;
-        $readmemb("regs.mbin", mips_processor_dut.u_reg_file.regs);
-
-        #10000;
-        $finish;
-    end
+    ////////////////////////////////////////////////////////////////////////////
+    //  GTKWave
+    ////////////////////////////////////////////////////////////////////////////
 
     initial begin
         // dump vcd waveform file
@@ -41,7 +73,7 @@ module mips_processor_tb;
         $dumpvars(0, mips_processor_tb);
 
         // instr_mem mem array
-        for(int i=0; i < 5; i++)
+        for(int i=0; i < 1024; i++)
             $dumpvars(1, mips_processor_dut.u_instr_mem.mem[i]);
 
         // reg_file reg_array array
