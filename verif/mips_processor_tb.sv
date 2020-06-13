@@ -22,6 +22,19 @@ module mips_processor_tb;
         rst = 0;
     endtask
 
+    task itype_test;
+        parameter instr_num = 2;
+
+        // load instr contents
+        $readmemb("bin/itype.ibin", mips_processor_dut.u_instr_mem.mem);
+
+        // load register contents
+        $readmemb("bin/itype.rbin", mips_processor_dut.u_reg_file.regs);
+
+        // Execute instructions
+        repeat(instr_num) @(posedge clk);
+    endtask
+
     task rtype_test;
         parameter instr_num = 5;
 
@@ -44,7 +57,7 @@ module mips_processor_tb;
         clk = 0;
         reset();
 
-        rtype_test();
+        itype_test();
 
         #10;
         $finish;
@@ -76,9 +89,13 @@ module mips_processor_tb;
         for(int i=0; i < 1024; i++)
             $dumpvars(1, mips_processor_dut.u_instr_mem.mem[i]);
 
-        // reg_file reg_array array
+        // reg_file regs array
         for(int i=0; i < 32; i++)
             $dumpvars(1, mips_processor_dut.u_reg_file.regs[i]);
+
+        // data_mem mem array
+        for(int i=0; i < 1024; i++)
+            $dumpvars(1, mips_processor_dut.u_data_mem.mem[i]);
     end
 
 endmodule
