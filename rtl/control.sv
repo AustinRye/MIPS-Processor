@@ -40,7 +40,7 @@ module control (
             6'b101011: begin // sw
                 reg_dst    = 1'b1;
                 reg_write  = 1'b0;
-                alu_src    = 1'b0;
+                alu_src    = 1'b1;
                 alu_op     = 2'b00;
                 mem_read   = 1'b0;
                 mem_write  = 1'b1;
