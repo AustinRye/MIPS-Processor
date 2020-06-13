@@ -151,4 +151,22 @@ module mips_processor (
         .zero           ()
     );
 
+
+    ///////////////////
+    //  Data Memory  //
+    ///////////////////
+
+    data_mem #(
+        .ADDR_SIZE      (1024),
+        .ADDR_WIDTH     (32),
+        .DATA_WIDTH     (32)
+    ) u_data_mem (
+        .clk            (clk),
+        .read_en        (),
+        .write_en       (),
+        .addr           (alu_result),
+        .write_data     (),
+        .read_data      ()
+    );
+
 endmodule
