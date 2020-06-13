@@ -24,8 +24,13 @@ module mips_processor (
     logic [31:0] instr;
 
     // Control
-    logic [1:0]  alu_op;
+    logic        reg_dst;
     logic        reg_write;
+    logic        alu_src;
+    logic [1:0]  alu_op;
+    logic        mem_read;
+    logic        mem_write;
+    logic        mem_to_reg;
 
     // Register File
     logic        reg_write_en;
@@ -40,6 +45,9 @@ module mips_processor (
     // ALU
     logic [31:0] alu_in_a, alu_in_b;
     logic [31:0] alu_result;
+
+    // Data Memory
+    logic [31:0] mem_read_data;
 
 
     ////////////////////////
@@ -93,8 +101,13 @@ module mips_processor (
 
     control u_control (
         .opcode         (op),
+        .reg_dst        (reg_dst),
         .reg_write      (reg_write),
-        .alu_op         (alu_op)
+        .alu_src        (alu_src),
+        .alu_op         (alu_op),
+        .mem_read       (mem_read),
+        .mem_write      (mem_write),
+        .mem_to_reg     (mem_to_reg)
     );
 
 
@@ -104,8 +117,8 @@ module mips_processor (
 
     assign reg_read_addr_1 = rs;
     assign reg_read_addr_2 = rt;
-    assign reg_write_addr  = rd;
-    assign reg_write_data  = alu_result;
+    assign reg_write_addr  = reg_dst ? rd : rt;
+    assign reg_write_data  = mem_to_reg ? mem_read_data : alu_result;
 
     reg_file #(
         .DATA_WIDTH     (32),
@@ -139,7 +152,7 @@ module mips_processor (
     ///////////////////
 
     assign alu_in_a = reg_read_data_1;
-    assign alu_in_b = reg_read_data_2;
+    assign alu_in_b = alu_src ? {{16{1'b0}}, immediate} : reg_read_data_2;
 
     alu #(
         .DATA_WIDTH     (32)
@@ -162,11 +175,11 @@ module mips_processor (
         .DATA_WIDTH     (32)
     ) u_data_mem (
         .clk            (clk),
-        .read_en        (),
-        .write_en       (),
+        .read_en        (mem_read),
+        .write_en       (mem_write),
         .addr           (alu_result),
-        .write_data     (),
-        .read_data      ()
+        .write_data     (reg_read_data_2),
+        .read_data      (mem_read_data)
     );
 
 endmodule
