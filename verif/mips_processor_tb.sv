@@ -41,7 +41,7 @@ module mips_processor_tb;
         $dumpvars(0, mips_processor_tb);
 
         // instr_mem mem array
-        for(int i=0; i < 1; i++)
+        for(int i=0; i < 5; i++)
             $dumpvars(1, mips_processor_dut.u_instr_mem.mem[i]);
 
         // reg_file reg_array array
