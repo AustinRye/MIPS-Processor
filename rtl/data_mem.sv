@@ -26,8 +26,6 @@ module data_mem
         if (write_en)
             mem[addr/4] = write_data;
 
-    always_comb
-        if (read_en)
-            read_data = mem[addr/4];
+    assign read_data = read_en ? mem[addr/4] : 0;
 
 endmodule
