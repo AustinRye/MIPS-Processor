@@ -152,7 +152,7 @@ module mips_processor (
     ///////////////////
 
     assign alu_in_a = reg_read_data_1;
-    assign alu_in_b = alu_src ? {{16{1'b0}}, immediate} : reg_read_data_2;
+    assign alu_in_b = alu_src ? {{16{immediate[15]}}, immediate} : reg_read_data_2;
 
     alu #(
         .DATA_WIDTH     (32)
