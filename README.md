@@ -43,14 +43,17 @@ A 32-bit single-cycle MIPS processor based on the RISC instruction set architect
 
 ## Control Signals
 
-| Instruction | Opcode [5:0] | RegWrite | ALUOp [1:0] |
-|:-----------:|:------------:|:--------:|:-----------:|
-| R-type      | 000000       | 1        | 10          |
+| Instruction | Opcode [5:0] | RegDst | RegWrite | ALUSrc | ALUOp [1:0] | MemRead | MemWrite | MemToReg |
+|:-----------:|:------------:|:------:|:--------:|:------:|:-----------:|:-------:|:--------:|:--------:|
+| R-type      | 000000       | 1      | 1        | 0      | 10          | 0       | 0        | 0        |
+| lw          | 100011       | 0      | 1        | 1      | 00          | 1       | 0        | 1        |
+| sw          | 101011       | x      | 0        | 1      | 00          | 0       | 1        | x        |
 
 ## ALU Control
 
 | ALUOp [1:0] | Func [5:0] | ALUControl[2:0] | ALU Operation |
 |:-----------:|:----------:|:---------------:|:-------------:|
+| 00          | xxxxxx     | 010             | + (lw, sw)    |
 | 1x          | 100000     | 010             | + (add)       |
 | 1x          | 100010     | 110             | - (sub)       |
 | 1x          | 100100     | 000             | & (and)       |
