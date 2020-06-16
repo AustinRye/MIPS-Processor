@@ -49,6 +49,7 @@ A 32-bit single-cycle MIPS processor based on the RISC instruction set architect
 | Subtraction   | sub $1, $2, $3 | $1 <- $2 - $3  | R        | 000000 | 100010 |
 | Bitwise And   | and $1, $2, $3 | $1 <- $2 & $3  | R        | 000000 | 100100 |
 | Bitwise Or    | or $1, $2, $3  | $1 <- $2 \| $3 | R        | 000000 | 100101 |
+| Set Less Than | slt $1, $2, $3 | $1 <- $2 < $3  | R        | 000000 | 101010 |
 
 ## Control Signals
 
