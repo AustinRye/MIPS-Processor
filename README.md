@@ -43,13 +43,15 @@ A 32-bit single-cycle MIPS processor based on the RISC instruction set architect
 
 ## Instructions
 
-| Instruction   | Assembly       | Function       | Encoding | Op     | Func   |
-|:-------------:|:--------------:|:--------------:|:--------:|:------:|:------:|
-| Addition      | add $1, $2, $3 | $1 <- $2 + $3  | R        | 000000 | 100000 |
-| Subtraction   | sub $1, $2, $3 | $1 <- $2 - $3  | R        | 000000 | 100010 |
-| Bitwise And   | and $1, $2, $3 | $1 <- $2 & $3  | R        | 000000 | 100100 |
-| Bitwise Or    | or $1, $2, $3  | $1 <- $2 \| $3 | R        | 000000 | 100101 |
-| Set Less Than | slt $1, $2, $3 | $1 <- $2 < $3  | R        | 000000 | 101010 |
+| Instruction   | Assembly       | Function         | Encoding | Op     | Func   |
+|:-------------:|:--------------:|:----------------:|:--------:|:------:|:------:|
+| Addition      | add $1, $2, $3 | $1 <- $2 + $3    | R        | 000000 | 100000 |
+| Subtraction   | sub $1, $2, $3 | $1 <- $2 - $3    | R        | 000000 | 100010 |
+| Bitwise And   | and $1, $2, $3 | $1 <- $2 & $3    | R        | 000000 | 100100 |
+| Bitwise Or    | or $1, $2, $3  | $1 <- $2 \| $3   | R        | 000000 | 100101 |
+| Set Less Than | slt $1, $2, $3 | $1 <- $2 < $3    | R        | 000000 | 101010 |
+| Load Word     | lw $1, 100($2) | $1 = mem[$2+100] | I        | 100011 | xxxxxx |
+| Store Word    | sw $1, 100($2) | mem[$2+100] = $1 | I        | 101011 | xxxxxx |
 
 ## Control Signals
 
