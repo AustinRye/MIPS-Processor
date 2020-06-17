@@ -19,6 +19,9 @@ module mips_processor (
 
     // Program Counter
     logic [31:0] pc, pc_next;
+    logic [31:0] pc4;
+    logic [27:0] target_address_shift_left_2;
+    logic [31:0] pcj;
 
     // Instruction Memory
     logic [31:0] instr;
@@ -31,6 +34,7 @@ module mips_processor (
     logic        mem_read;
     logic        mem_write;
     logic        mem_to_reg;
+    logic        jump;
 
     // Register File
     logic        reg_write_en;
@@ -43,6 +47,7 @@ module mips_processor (
     logic [2:0]  alu_control;
 
     // ALU
+    logic [31:0] immediate_sign_ext;
     logic [31:0] alu_in_a, alu_in_b;
     logic [31:0] alu_result;
 
@@ -77,8 +82,10 @@ module mips_processor (
         .pc             (pc)
     );
 
-    // PC next addr (+4addr = +4bytes = +32bits)
-    assign pc_next = pc + 4;
+    assign pc4 = pc + 4;
+    assign target_address_shift_left_2 = target_address << 2;
+    assign pcj = {pc4[31:28], target_address_shift_left_2[27:0]};
+    assign pc_next = jump ? pcj : pc4;
 
 
     ////////////////////////
@@ -107,7 +114,8 @@ module mips_processor (
         .alu_op         (alu_op),
         .mem_read       (mem_read),
         .mem_write      (mem_write),
-        .mem_to_reg     (mem_to_reg)
+        .mem_to_reg     (mem_to_reg),
+        .jump           (jump)
     );
 
 
@@ -151,8 +159,10 @@ module mips_processor (
     //      ALU      //
     ///////////////////
 
+    assign immediate_sign_ext = {{16{immediate[15]}}, immediate};
+
     assign alu_in_a = reg_read_data_1;
-    assign alu_in_b = alu_src ? {{16{immediate[15]}}, immediate} : reg_read_data_2;
+    assign alu_in_b = alu_src ? immediate_sign_ext : reg_read_data_2;
 
     alu #(
         .DATA_WIDTH     (32)
