@@ -36,7 +36,7 @@ module mips_processor_tb;
     endtask
 
     task itype_test;
-        parameter instr_num = 2;
+        parameter instr_num = 3;
 
         // load instr contents
         $readmemb("bin/itype.ibin", mips_processor_dut.u_instr_mem.mem);
@@ -70,7 +70,7 @@ module mips_processor_tb;
         clk = 0;
         reset();
 
-        jtype_test();
+        itype_test();
 
         #10;
         $finish;
