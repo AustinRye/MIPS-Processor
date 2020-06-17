@@ -15,6 +15,7 @@ module control (
         output logic       mem_read,   // memory read
         output logic       mem_write,  // memory write
         output logic       mem_to_reg, // memory to register
+        output logic       branch,     // branch
         output logic       jump        // jump
     );
 
@@ -28,6 +29,7 @@ module control (
                 mem_read   = 1'b0;
                 mem_write  = 1'b0;
                 mem_to_reg = 1'b0;
+                branch     = 1'b0;
                 jump       = 1'b0;
             end
             6'b100011: begin // lw
@@ -38,6 +40,7 @@ module control (
                 mem_read   = 1'b1;
                 mem_write  = 1'b0;
                 mem_to_reg = 1'b1;
+                branch     = 1'b0;
                 jump       = 1'b0;
             end
             6'b101011: begin // sw
@@ -48,6 +51,18 @@ module control (
                 mem_read   = 1'b0;
                 mem_write  = 1'b1;
                 mem_to_reg = 1'b0;
+                branch     = 1'b0;
+                jump       = 1'b0;
+            end
+            6'b000100: begin // beq
+                reg_dst    = 1'b0;
+                reg_write  = 1'b0;
+                alu_src    = 1'b0;
+                alu_op     = 2'b01;
+                mem_read   = 1'b0;
+                mem_write  = 1'b0;
+                mem_to_reg = 1'b0;
+                branch     = 1'b1;
                 jump       = 1'b0;
             end
             6'b000010: begin // j
@@ -58,6 +73,7 @@ module control (
                 mem_read   = 1'b0;
                 mem_write  = 1'b0;
                 mem_to_reg = 1'b0;
+                branch     = 1'b0;
                 jump       = 1'b1;
             end
             default: begin
@@ -68,6 +84,7 @@ module control (
                 mem_read   = 1'b0;
                 mem_write  = 1'b0;
                 mem_to_reg = 1'b0;
+                branch     = 1'b0;
                 jump       = 1'b0;
             end
         endcase
