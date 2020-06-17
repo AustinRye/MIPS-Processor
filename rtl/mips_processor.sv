@@ -100,8 +100,8 @@ module mips_processor (
     assign beq = branch & zero_flag;
 
     // pc_next
-    assign pc_bne = bne ? bne_addr : pc4;
-    assign pc_next = jump ? jump_addr : pc_bne;
+    assign pc_beq = beq ? beq_addr : pc4;
+    assign pc_next = jump ? jump_addr : pc_beq;
 
 
     ////////////////////////
