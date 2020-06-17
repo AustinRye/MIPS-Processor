@@ -22,6 +22,19 @@ module mips_processor_tb;
         rst = 0;
     endtask
 
+    task rtype_test;
+        parameter instr_num = 5;
+
+        // load instr contents
+        $readmemb("bin/rtype.ibin", mips_processor_dut.u_instr_mem.mem);
+
+        // load register contents
+        $readmemb("bin/rtype.rbin", mips_processor_dut.u_reg_file.regs);
+
+        // Execute instructions
+        repeat(instr_num) @(posedge clk);
+    endtask
+
     task itype_test;
         parameter instr_num = 2;
 
@@ -35,14 +48,14 @@ module mips_processor_tb;
         repeat(instr_num) @(posedge clk);
     endtask
 
-    task rtype_test;
-        parameter instr_num = 5;
+    task jtype_test;
+        parameter instr_num = 1;
 
         // load instr contents
-        $readmemb("bin/rtype.ibin", mips_processor_dut.u_instr_mem.mem);
+        $readmemb("bin/jtype.ibin", mips_processor_dut.u_instr_mem.mem);
 
         // load register contents
-        $readmemb("bin/rtype.rbin", mips_processor_dut.u_reg_file.regs);
+        $readmemb("bin/jtype.rbin", mips_processor_dut.u_reg_file.regs);
 
         // Execute instructions
         repeat(instr_num) @(posedge clk);
@@ -57,7 +70,7 @@ module mips_processor_tb;
         clk = 0;
         reset();
 
-        itype_test();
+        jtype_test();
 
         #10;
         $finish;
