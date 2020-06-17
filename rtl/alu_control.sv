@@ -15,6 +15,7 @@ module alu_control (
     always_comb
         casex ({alu_op, func})
             8'b00xxxxxx: alu_control = 3'b010; // lw, sw
+            8'b01xxxxxx: alu_control = 3'b110; // beq
             8'b1x100000: alu_control = 3'b010; // add
             8'b1x100010: alu_control = 3'b110; // sub
             8'b1x100100: alu_control = 3'b000; // and
