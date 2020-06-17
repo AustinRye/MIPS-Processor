@@ -21,7 +21,11 @@ module mips_processor (
     logic [31:0] pc, pc_next;
     logic [31:0] pc4;
     logic [27:0] target_address_shift_left_2;
-    logic [31:0] pcj;
+    logic [31:0] jump_addr;
+    logic [31:0] immediate_shift_left_2;
+    logic [31:0] beq_addr;
+    logic        beq;
+    logic [31:0] pc_beq;
 
     // Instruction Memory
     logic [31:0] instr;
@@ -34,6 +38,7 @@ module mips_processor (
     logic        mem_read;
     logic        mem_write;
     logic        mem_to_reg;
+    logic        branch;
     logic        jump;
 
     // Register File
@@ -50,6 +55,7 @@ module mips_processor (
     logic [31:0] immediate_sign_ext;
     logic [31:0] alu_in_a, alu_in_b;
     logic [31:0] alu_result;
+    logic        zero_flag;
 
     // Data Memory
     logic [31:0] mem_read_data;
@@ -83,9 +89,19 @@ module mips_processor (
     );
 
     assign pc4 = pc + 4;
+
+    // jump
     assign target_address_shift_left_2 = target_address << 2;
-    assign pcj = {pc4[31:28], target_address_shift_left_2[27:0]};
-    assign pc_next = jump ? pcj : pc4;
+    assign jump_addr = {pc4[31:28], target_address_shift_left_2[27:0]};
+
+    // branch    
+    assign immediate_shift_left_2 = immediate_sign_ext << 2;
+    assign beq_addr = pc4 + immediate_shift_left_2;
+    assign beq = branch & zero_flag;
+
+    // pc_next
+    assign pc_bne = bne ? bne_addr : pc4;
+    assign pc_next = jump ? jump_addr : pc_bne;
 
 
     ////////////////////////
@@ -115,6 +131,7 @@ module mips_processor (
         .mem_read       (mem_read),
         .mem_write      (mem_write),
         .mem_to_reg     (mem_to_reg),
+        .branch         (branch),
         .jump           (jump)
     );
 
@@ -171,7 +188,7 @@ module mips_processor (
         .b              (alu_in_b),
         .op_sel         (alu_control),
         .result         (alu_result),
-        .zero           ()
+        .zero           (zero_flag)
     );
 
 
