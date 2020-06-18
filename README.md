@@ -2,6 +2,10 @@
 
 A 32-bit single-cycle MIPS processor based on the RISC instruction set architecture.
 
+## Architecture
+
+![MIPS Processor](docs/mips_processor.png)
+
 ## Instruction Format
 
 <table>
